@@ -1,0 +1,5 @@
+[user]
+	name = Mike Izbicki
+	email = mike@izbicki.me
+[credential]
+	helper = cache
