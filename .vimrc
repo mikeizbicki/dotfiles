@@ -5,6 +5,10 @@ set spell spelllang=en_us
 syntax on
 filetype plugin on
 
+" tab completion
+set wildmode=longest,list,full
+set wildmenu
+
 " indentation settings
 set tabstop=4
 set shiftwidth=4
@@ -24,7 +28,13 @@ au BufWinLeave * mkview
 set term=xterm-256color
 
 hi clear SpellBad
+hi clear SpellLocal
+hi clear SpellCap
+hi clear SpellRare
 hi SpellBad cterm=underline
+hi SpellLocal cterm=none
+hi SpellCap cterm=underline
+hi SpellRare cterm=underline
 
 hi Comment cterm=none ctermfg=103
 hi Constant cterm=none ctermfg=36
