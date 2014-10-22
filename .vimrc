@@ -36,17 +36,6 @@ hi SpellLocal cterm=none
 hi SpellCap cterm=underline
 hi SpellRare cterm=underline
 
-hi Comment cterm=none ctermfg=103
-hi Constant cterm=none ctermfg=36
-hi Statement cterm=none ctermfg=green
-
-hi VarId cterm=none ctermfg=7 "122
-hi Identifier cterm=none ctermfg=7
-hi Normal cterm=none ctermfg=7
-
-hi hsType cterm=none ctermfg=130
-hi hsDelimiter cterm=none ctermfg=green
-
 " press F10 to debug syntax highlighting under cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
