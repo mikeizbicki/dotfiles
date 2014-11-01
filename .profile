@@ -79,6 +79,7 @@ On_IWhite='\e[0;107m'   # White
 
 export PATH=~/.cabal/bin:~/proj/arcanist/bin:$PATH
 export IGNOREEOF=3
+export EDITOR="vim"
 
 #export PS1="\[$Green\]\w\[$Purple\]\$(__git_ps1) \[$Green\]$\[$Color_Off\] "
 export PS1="$ "
