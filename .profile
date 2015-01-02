@@ -80,4 +80,11 @@ On_IWhite='\e[0;107m'   # White
 export PATH=~/.cabal/bin:~/proj/arcanist/bin:$PATH
 export IGNOREEOF=3
 
-export PS1="\[$Green\]\w\[$Purple\]\$(__git_ps1) \[$Green\]$\[$Color_Off\] "
+# update prompt to display repo info
+. ~/.git-prompt.sh
+if [ "$(hostname)" = "userland" ]; then
+    hoststr=""
+else
+    hoststr="\[$Green\]\h\[$Red\]:"
+fi
+export PS1="$hoststr\[$Green\]\w\[$Purple\]\$(__git_ps1) \[$Green\]$\[$Color_Off\] "
