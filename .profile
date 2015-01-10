@@ -91,3 +91,6 @@ else
     hoststr="\[$Green\]\h\[$Red\]:"
 fi
 export PS1="$hoststr\[$Green\]\w\[$Purple\]\$(__git_ps1) \[$Green\]$\[$Color_Off\] "
+
+# don't use gtk passwords from the commandline
+unset SSH_ASKPASS
