@@ -7,17 +7,11 @@ import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 
 main = do
---     xmproc <- spawnPipe "/path/to/xmobarbinary /home/jgoerzen/.xmobarrc"
---     xmonad $ defaultConfig
-    spawnPipe "/home/user/.dropbox-dist/dropboxd"
+--     spawnPipe "/home/user/.dropbox-dist/dropboxd"
     xmonad $ gnomeConfig
         { terminal = "xterm"
         , manageHook = manageDocks <+> manageHook defaultConfig
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
---         , logHook = dynamicLogWithPP xmobarPP
---                         { ppOutput = hPutStrLn xmproc
---                         , ppTitle = xmobarColor "green" "" . shorten 50
---                         }
         , modMask = mod4Mask     -- Rebind Mod to the Windows key
 	} `additionalKeys`
         [ ((mod4Mask .|. shiftMask, xK_z), spawn "xscreensaver-command -lock")
