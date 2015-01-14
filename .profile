@@ -81,7 +81,7 @@ export PATH=~/.cabal/bin:~/proj/arcanist/bin:$PATH
 export IGNOREEOF=3
 
 # update prompt to display repo info
-. ~/.git-prompt.sh
+#. ~/.git-prompt.sh
 if [ "$(hostname)" = "userland" ]; then
     hoststr=""
 else
