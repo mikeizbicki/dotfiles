@@ -9,7 +9,7 @@ import System.IO
 main = do
 --     spawnPipe "/home/user/.dropbox-dist/dropboxd"
     xmonad $ gnomeConfig
-        { terminal = "xterm"
+        { terminal = "uxterm"
         , manageHook = manageDocks <+> manageHook defaultConfig
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
         , modMask = mod4Mask     -- Rebind Mod to the Windows key
