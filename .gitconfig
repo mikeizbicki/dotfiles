@@ -3,3 +3,5 @@
 	email = mike@izbicki.me
 [credential]
 	helper = cache
+[push]
+	default = simple

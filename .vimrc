@@ -62,6 +62,8 @@ autocmd BufRead,BufNewFile * :call IgnoreCamelCaseSpell()
 " add md as markdown filetype
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+
+
 " haskell settings
 
 "au Bufenter *.hs compiler ghc
@@ -73,6 +75,9 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 "let g:haddock_browser = "C:/Program Files/Opera/Opera.exe"
 "let g:haddock_browser = "C:/Program Files/Mozilla Firefox/firefox.exe"
 "let g:haddock_browser = "C:/Program Files/Internet Explorer/IEXPLORE.exe"
+
+" automatically add bird tracks for literate programming
+:set formatoptions+=ro
 
 " remove trailing whitespaces
 fun! <SID>StripTrailingWhitespaces()
