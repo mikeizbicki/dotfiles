@@ -1,0 +1,3 @@
+[submodule ".submodules/nerdcommenter"]
+	path = .submodules/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter/
