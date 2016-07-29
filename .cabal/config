@@ -18,11 +18,11 @@ world-file: /home/user/.cabal/world
 -- with-compiler:
 -- with-hc-pkg:
 -- scratchdir:
--- program-prefix: 
--- program-suffix: 
+-- program-prefix:
+-- program-suffix:
 -- library-vanilla: True
 
-library-profiling: True
+-- library-profiling: True
 
 -- shared: False
 -- executable-dynamic: False
