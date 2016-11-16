@@ -16,7 +16,8 @@ stalonetray &
 nm-applet --sm-disable &
 mate-power-manager &
 gnome-sound-applet &
-~/.dropbox-dist/dropboxd &
+#~/.dropbox-dist/dropboxd &
+xsetroot -solid gray10 &
 
 ~/.cabal/bin/xmonad
 #xterm
