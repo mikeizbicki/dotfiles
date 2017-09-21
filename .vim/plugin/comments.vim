@@ -159,7 +159,7 @@ function! CommentLine()
   elseif file_name =~ '\.f90$' || file_name =~ '\.F90$' || file_name =~ '\.f95$' || file_name =~ '\.F95$'
     execute ":silent! normal ^i!\<ESC>\<down>^"
   " for VHDL and Haskell files use --
-  elseif file_name =~ '\.vhd$' || file_name =~ '\.vhdl$' || file_name =~ '\.hs$' || file_name =~ '\.cabal$'
+  elseif file_name =~ '\.vhd$' || file_name =~ '\.vhdl$' || file_name =~ '\.hs$' || file_name =~ '\.cabal$' || file_name =~ '\.idr'
     execute ":silent! normal ^gI-- \<ESC>\<down>^"
   " for all other files use #
   else
@@ -204,7 +204,7 @@ function! UnCommentLine()
   elseif file_name =~ '\.f90$' || file_name =~ '\.F90$' || file_name =~ '\.f95$' || file_name =~ '\.F95$'
     execute ":silent! normal :nohlsearch\<CR>:s/!//\<CR>:nohlsearch\<CR>"
   " for VHDL and Haskell files use --
-  elseif file_name =~ '\.vhd$' || file_name =~ '\.vhdl$' || file_name =~ '\.hs$' || file_name =~ '\.cabal$'
+  elseif file_name =~ '\.vhd$' || file_name =~ '\.vhdl$' || file_name =~ '\.hs$' || file_name =~ '\.cabal$' || file_name =~ '\.idr'
     execute ":silent! normal :nohlsearch\<CR>:s/^--\\\( \\\|$\\\)//\<CR>:nohlsearch\<CR>"
   " for all other files use #
   else
@@ -270,7 +270,7 @@ function! RangeCommentLine()
   elseif file_name =~ '\.f90$' || file_name =~ '\.F90$' || file_name =~ '\.f95$' || file_name =~ '\.F95$'
     execute ":silent! normal :s/\\S/!\\0/\<CR>:nohlsearch<CR>"
   " for VHDL and Haskell files use --
-  elseif file_name =~ '\.vhd$' || file_name =~ '\.vhdl$' || file_name =~ '\.hs$' || file_name =~ '\.cabal$'
+  elseif file_name =~ '\.vhd$' || file_name =~ '\.vhdl$' || file_name =~ '\.hs$' || file_name =~ '\.cabal$' || file_name =~ '\.idr'
     execute ":silent! normal ^gI-- \<ESC>\<down>^"
   " for all other files use #
   else
@@ -314,7 +314,7 @@ function! RangeUnCommentLine()
   elseif file_name =~ '\.f90$' || file_name =~ '\.F90$' || file_name =~ '\.f95$' || file_name =~ '\.F95$'
     execute ":silent! normal :s/!//\<CR>:nohlsearch\<CR>"
   " for VHDL and Haskell files use --
-  elseif file_name =~ '\.vhd$' || file_name =~ '\.vhdl$' || file_name =~ '\.hs$' || file_name =~ '\.cabal$'
+  elseif file_name =~ '\.vhd$' || file_name =~ '\.vhdl$' || file_name =~ '\.hs$' || file_name =~ '\.cabal$' || file_name =~ '\.idr'
     execute ":silent! normal :s/^--\\\( \\\|$\\\)//\<CR>:nohlsearch\<CR>"
   " for all other files use #
   else

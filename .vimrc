@@ -2,8 +2,8 @@
 set number
 set guioptions=
 set spell spelllang=en_us
-syntax on
-filetype plugin on
+filetype plugin indent on
+syntax enable
 let mapleader=","
 
 " tab completion
@@ -81,10 +81,10 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 :set formatoptions+=ro
 
 " remove trailing whitespaces
-fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
-autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+"fun! <SID>StripTrailingWhitespaces()
+    "let l = line(".")
+    "let c = col(".")
+    "%s/\s\+$//e
+    "call cursor(l, c)
+"endfun
+"autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
