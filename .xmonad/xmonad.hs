@@ -9,7 +9,7 @@ import System.IO
 
 main = do
     xmproc <- spawnPipe "/usr/bin/xmobar /home/user/.xmobarrc"
-    xmonad $ defaultConfig
+    xmonad $ docks $ defaultConfig
         { terminal = "uxterm"
 --         , manageHook = manageDocks <+> manageHook defaultConfig
         , manageHook = composeAll
