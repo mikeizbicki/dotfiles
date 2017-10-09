@@ -77,9 +77,21 @@ On_IWhite='\e[0;107m'   # White
 
 #######################################
 
-export PATH=~/.cabal/bin:~/proj/arcanist/bin:$PATH
+export PATH=~/opt/firefox:~/.cabal/bin:~/proj/arcanist/bin:$PATH
 export IGNOREEOF=3
 export EDITOR="vim"
 
-#export PS1="\[$Green\]\w\[$Purple\]\$(__git_ps1) \[$Green\]$\[$Color_Off\] "
-export PS1="$ "
+export C_INCLUDE_PATH=~/local/include:$C_INCLUDE_PATH
+export CPLUS_INCLUDE_PATH=~/local/include:$CPLUS_INCLUDE_PATH
+
+# update prompt to display repo info
+#. ~/.git-prompt.sh
+if [ "$(hostname)" = "userland" ]; then
+    hoststr=""
+else
+    hoststr="\[$Green\]\h\[$Red\]:"
+fi
+export PS1="$hoststr\[$Green\]\w\[$Purple\]\$(__git_ps1) \[$Green\]$\[$Color_Off\] "
+
+# don't use gtk passwords from the commandline
+unset SSH_ASKPASS

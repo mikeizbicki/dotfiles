@@ -2,8 +2,9 @@
 set number
 set guioptions=
 set spell spelllang=en_us
-syntax on
-filetype plugin on
+filetype plugin indent on
+syntax enable
+let mapleader=","
 
 " tab completion
 set wildmode=longest,list,full
@@ -51,6 +52,8 @@ autocmd BufRead,BufNewFile * :call IgnoreCamelCaseSpell()
 " add md as markdown filetype
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+
+
 " haskell settings
 
 "au Bufenter *.hs compiler ghc
@@ -63,11 +66,14 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 "let g:haddock_browser = "C:/Program Files/Mozilla Firefox/firefox.exe"
 "let g:haddock_browser = "C:/Program Files/Internet Explorer/IEXPLORE.exe"
 
+" automatically add bird tracks for literate programming
+:set formatoptions+=ro
+
 " remove trailing whitespaces
-fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
-autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+"fun! <SID>StripTrailingWhitespaces()
+    "let l = line(".")
+    "let c = col(".")
+    "%s/\s\+$//e
+    "call cursor(l, c)
+"endfun
+"autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()

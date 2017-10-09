@@ -97,7 +97,7 @@ __git_ps1_show_upstream ()
 	local svn_remote svn_url_pattern count n
 	local upstream=git legacy="" verbose="" name=""
 
-	svn_remote=()
+	#svn_remote=()
 	# get some config options from git-config
 	local output="$(git config -z --get-regexp '^(svn-remote\..*\.url|bash\.showupstream)$' 2>/dev/null | tr '\0\n' '\n ')"
 	while read -r key value; do
