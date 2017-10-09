@@ -85,7 +85,7 @@ export C_INCLUDE_PATH=~/local/include:$C_INCLUDE_PATH
 export CPLUS_INCLUDE_PATH=~/local/include:$CPLUS_INCLUDE_PATH
 
 # update prompt to display repo info
-#. ~/.git-prompt.sh
+. ~/.git-prompt.sh
 if [ "$(hostname)" = "userland" ]; then
     hoststr=""
 else
