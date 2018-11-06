@@ -11,6 +11,7 @@ import System.IO
 
 main = do
     xmproc <- spawnPipe "/usr/bin/xmobar /home/user/.xmobarrc"
+--     spawnPipe "trayer --edge top --align right --width 150 --widthtype pixel --height 18 --tint 0 --alpha 255 --transparent true"
     xmonad $ docks $ def
         { terminal = "uxterm"
         , manageHook = composeAll
@@ -18,6 +19,7 @@ main = do
             , isFullscreen --> doFullFloat
             , manageHook def
             ]
+			<+> manageDocks
         , layoutHook = avoidStruts  $  layoutHook def
         , modMask = mod4Mask     -- Rebind Mod to the Windows key
         , logHook = dynamicLogWithPP xmobarPP

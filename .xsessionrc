@@ -11,14 +11,16 @@ xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
 #trayer --edge top --align right --SetDockType true --SetPartialStrut true \
  #--expand true --width 11 --transparent true --alpha 0 --tint 0x000000 --height 14 &
 
-stalonetray &
+trayer --edge top --align right --width 150 --widthtype pixel --height 18 --tint 0 --alpha 255 --transparent true &
 
 nm-applet --sm-disable &
 mate-power-manager &
-gnome-sound-applet &
+mate-sound-applet &
 #~/.dropbox-dist/dropboxd &
 xsetroot -solid gray10 &
 
-~/.cabal/bin/xmonad
-#xterm
-#firefox
+setxkbmap -layout us,se -variant ,kinesis -option 'grp:alt_shift_toggle'
+xbdd
+
+dbus-send --system --type=method_call  --dest="org.freedesktop.UPower" "/org/freedesktop/UPower/KbdBacklight" "org.freedesktop.UPower.KbdBacklight.SetBrightness" int32:0
+
