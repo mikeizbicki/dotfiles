@@ -90,12 +90,14 @@ if [ "$(hostname)" = "userland" ]; then
 else
     hoststr="\[$Green\]\h\[$Red\]:"
 fi
-if [[ $(git status --porcelain) ]]; then
-	dirty='- dirty'
-else
-	dirty=''
-fi
-export PS1="$hoststr\[$Green\]\w\[$Purple\]\$(__git_ps1 ' (%s $dirty)') \[$Green\]$\[$Color_Off\] "
+function dirty()
+{
+	if [[ $(git status --porcelain) ]]; then
+		echo '- dirty'
+	fi
+}
+export GIT_PS1_SHOWDIRTYHINTS=1
+export PS1="$hoststr\[$Green\]\w\[$Purple\]\$(__git_ps1 ' (%s $(dirty))') \[$Green\]$\[$Color_Off\] "
 
 # don't use gtk passwords from the commandline
 unset SSH_ASKPASS
