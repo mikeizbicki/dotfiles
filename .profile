@@ -96,8 +96,10 @@ function dirty()
 		echo '- dirty'
 	fi
 }
-export GIT_PS1_SHOWDIRTYHINTS=1
-export PS1="$hoststr\[$Green\]\w\[$Purple\]\$(__git_ps1 ' (%s $(dirty))') \[$Green\]$\[$Color_Off\] "
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+export GIT_PS1_SHOWUPSTREAM='auto'
+export PS1="$hoststr\[$Green\]\w\[$Purple\]\$(__git_ps1 ) \[$Green\]$\[$Color_Off\] "
 
 # don't use gtk passwords from the commandline
 unset SSH_ASKPASS
