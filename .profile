@@ -103,3 +103,7 @@ export PS1="$hoststr\[$Green\]\w\[$Purple\]\$(__git_ps1 ) \[$Green\]$\[$Color_Of
 
 # don't use gtk passwords from the commandline
 unset SSH_ASKPASS
+
+# colorize ls
+eval "`dircolors -b ~/.dircolors`"
+alias ls='ls --color=auto'
