@@ -77,8 +77,8 @@ On_IWhite='\e[0;107m'   # White
 
 #######################################
 
-export PATH=~/.local/bin:~/.cabal/bin:$PATH
-export IGNOREEOF=3
+#export PATH=~/.local/bin:~/.cabal/bin:$PATH
+#export IGNOREEOF=3
 
 export C_INCLUDE_PATH=~/.local/include:$C_INCLUDE_PATH
 export CPLUS_INCLUDE_PATH=~/.local/include:$CPLUS_INCLUDE_PATH
