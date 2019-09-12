@@ -5,6 +5,7 @@ set spell spelllang=en_us
 filetype plugin indent on
 syntax enable
 let mapleader=","
+set hlsearch
 
 " tab completion
 set wildmode=longest,list,full
