@@ -77,7 +77,7 @@ On_IWhite='\e[0;107m'   # White
 
 #######################################
 
-export PATH=~/.cabal/bin:~/proj/arcanist/bin:$PATH
+export PATH=~/.local/bin:~/.cabal/bin:~/proj/arcanist/bin:$PATH
 export IGNOREEOF=3
 export EDITOR="vim"
 
