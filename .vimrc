@@ -4,6 +4,7 @@ set guioptions=
 set spell spelllang=en_us
 syntax on
 filetype plugin on
+set hlsearch
 
 " tab completion
 set wildmode=longest,list,full
