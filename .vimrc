@@ -7,6 +7,7 @@ syntax enable
 let mapleader=","
 set hlsearch
 set incsearch
+set showcmd
 
 " tab completion
 set wildmode=longest,list,full
