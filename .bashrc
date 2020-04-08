@@ -107,3 +107,5 @@ unset SSH_ASKPASS
 # colorize ls
 eval "`dircolors -b ~/.dircolors`"
 alias ls='ls --color=auto'
+
+mesg n
