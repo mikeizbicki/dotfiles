@@ -1,4 +1,5 @@
 Config { font = "-misc-fixed-*-*-*-*-15-*-*-*-*-*-*-*"
+       , pickBroadest =     True   -- choose widest display (multi-monitor)
        , bgColor = "black"
        , fgColor = "grey"
        , position = TopW L 93

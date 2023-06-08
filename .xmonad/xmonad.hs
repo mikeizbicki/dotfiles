@@ -13,7 +13,7 @@ main = do
     xmproc <- spawnPipe "/usr/bin/xmobar /home/user/.xmobarrc"
 --     spawnPipe "trayer --edge top --align right --width 150 --widthtype pixel --height 18 --tint 0 --alpha 255 --transparent true"
     xmonad $ docks $ def
-        { terminal = "uxterm"
+        { terminal = "gnome-terminal"
         , manageHook = composeAll
             [ manageDocks 
             , isFullscreen --> doFullFloat
