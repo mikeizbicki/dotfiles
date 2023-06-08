@@ -1,3 +1,5 @@
+export LANG='en_US'
+
 #######################################
 # colors taken from: https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 

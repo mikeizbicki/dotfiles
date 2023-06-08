@@ -1,5 +1,6 @@
 import XMonad
 -- import XMonad.Actions.Volume
+import XMonad.Actions.SpawnOn
 import XMonad.Util.Dzen
 import XMonad.Config.Mate
 import XMonad.Hooks.DynamicLog
@@ -14,6 +15,9 @@ main = do
 --     spawnPipe "trayer --edge top --align right --width 150 --widthtype pixel --height 18 --tint 0 --alpha 255 --transparent true"
     xmonad $ docks $ def
         { terminal = "gnome-terminal"
+        , startupHook = composeAll
+            [ spawnOn "1" "gnome-terminal"
+            ]
         , manageHook = composeAll
             [ manageDocks 
             , isFullscreen --> doFullFloat

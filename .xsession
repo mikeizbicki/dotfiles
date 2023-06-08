@@ -4,13 +4,12 @@
 xsetroot -solid gray10 &
 
 # applet tray
-# FIXME: something is launching trayer, but I don't know what?
-#trayer --edge top --align right --width 150 --widthtype pixel --height 18 --tint 0 --alpha 255 --transparent true &
+trayer --edge top --align right --width 150 --widthtype pixel --height 18 --tint 0 --alpha 255 --transparent true &
 
 # applets
 nm-applet --sm-disable &
 mate-power-manager &
-mate-volume-control-applet &
+mate-volume-control-applet || mate-volume-control-status-icon &
 
 # keyboard layouts
 setxkbmap -layout us,es -variant , -option 'grp:alt_shift_toggle' 
