@@ -83,6 +83,7 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " automatically add bird tracks for literate programming
 :set formatoptions+=ro
 
+:highlight ExtraWhitespace ctermbg=red guibg=red
 " remove trailing whitespaces
 "fun! <SID>StripTrailingWhitespaces()
     "let l = line(".")
