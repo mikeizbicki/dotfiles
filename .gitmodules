@@ -1,3 +1,9 @@
 [submodule ".submodules/nerdcommenter"]
 	path = .submodules/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter/
+[submodule ".config/xmonad/xmonad"]
+	path = .config/xmonad/xmonad
+	url = https://github.com/xmonad/xmonad
+[submodule ".config/xmonad/xmonad-contrib"]
+	path = .config/xmonad/xmonad-contrib
+	url = https://github.com/xmonad/xmonad-contrib
