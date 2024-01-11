@@ -1,4 +1,4 @@
-export LANG='en_US'
+export LANG='en_US.UTF-8'
 
 #######################################
 # colors taken from: https://wiki.archlinux.org/index.php/Color_Bash_Prompt

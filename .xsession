@@ -4,7 +4,7 @@
 xsetroot -solid gray10 &
 
 # applet tray
-trayer --edge top --align right --width 150 --widthtype pixel --height 18 --tint 0 --alpha 255 --transparent true &
+#trayer --edge top --align right --width 150 --widthtype pixel --height 18 --tint 0 --alpha 255 --transparent true &
 
 # applets
 nm-applet --sm-disable &
