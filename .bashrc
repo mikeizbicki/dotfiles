@@ -111,3 +111,17 @@ eval "`dircolors -b ~/.dircolors`"
 alias ls='ls --color=auto'
 
 mesg n
+
+export PATH=/home/$USER/bin:$PATH
+export DOCKER_HOST=unix:///run/user/$UID/docker.sock
+
+if [ -e ~/.env ]; then
+    export "$(cat ~/.env)"
+fi
+
+if [ -e ~/.venv/bin/activate ]; then
+    source ~/.venv/bin/activate
+fi
+
+alias groq='llm -s "keep your response short, between 5-20 lines" -m groq-llama3.1-70b'
+alias claude='llm -s "keep your response short, between 5-20 lines" -m claude-3-5-sonnet-latest'
