@@ -116,7 +116,7 @@ export PATH=/home/$USER/bin:$PATH
 export DOCKER_HOST=unix:///run/user/$UID/docker.sock
 
 if [ -e ~/.env ]; then
-    export "$(cat ~/.env)"
+    export $(cat ~/.env)
 fi
 
 if [ -e ~/.venv/bin/activate ]; then
