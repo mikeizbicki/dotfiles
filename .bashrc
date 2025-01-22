@@ -79,11 +79,32 @@ On_IWhite='\e[0;107m'   # White
 
 #######################################
 
-export PATH=~/.local/bin:~/.cabal/bin:$PATH
-#export IGNOREEOF=3
+# make bash history size unlimited and shared
+HISTSIZE=
+HISTFILESIZE=
+PROMPT_COMMAND='history -a'
+shopt -s histappend
 
+# set public environment variables
+export PATH=~/.local/bin:~/.cabal/bin:~/bin:$PATH
+export DOCKER_HOST=unix:///run/user/$UID/docker.sock
 export C_INCLUDE_PATH=~/.local/include:$C_INCLUDE_PATH
 export CPLUS_INCLUDE_PATH=~/.local/include:$CPLUS_INCLUDE_PATH
+
+# .env can store private environment variables like API keys;
+# load them if they exist
+if [ -e ~/.env ]; then
+    export $(cat ~/.env)
+fi
+
+# load a default python venv if it exists
+if [ -e ~/.venv/bin/activate ]; then
+    source ~/.venv/bin/activate
+fi
+
+# useful aliases
+alias groq='llm -s "keep your response short, between 5-20 lines" -m groq-llama3.1-70b'
+alias claude='llm -s "keep your response short, between 5-20 lines" -m claude-3-5-sonnet-latest'
 
 # update prompt to display repo info
 . ~/.git-prompt.sh
@@ -109,19 +130,3 @@ unset SSH_ASKPASS
 # colorize ls
 eval "`dircolors -b ~/.dircolors`"
 alias ls='ls --color=auto'
-
-mesg n
-
-export PATH=/home/$USER/bin:$PATH
-export DOCKER_HOST=unix:///run/user/$UID/docker.sock
-
-if [ -e ~/.env ]; then
-    export $(cat ~/.env)
-fi
-
-if [ -e ~/.venv/bin/activate ]; then
-    source ~/.venv/bin/activate
-fi
-
-alias groq='llm -s "keep your response short, between 5-20 lines" -m groq-llama3.1-70b'
-alias claude='llm -s "keep your response short, between 5-20 lines" -m claude-3-5-sonnet-latest'

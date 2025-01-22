@@ -2,7 +2,7 @@
 	name = Mike Izbicki
 	email = mike@izbicki.me
 [credential]
-	helper = cache
+	helper = cache --timeout=9000
 [push]
 	default = simple
 [core]
