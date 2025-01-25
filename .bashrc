@@ -103,7 +103,7 @@ if [ -e ~/.venv/bin/activate ]; then
 fi
 
 # useful aliases
-alias groq='llm -s "keep your response short, between 5-20 lines" -m groq-llama3.1-70b'
+alias groq='llm -s "keep your response short, between 5-20 lines" -m groq-llama3.3-70b'
 alias claude='llm -s "keep your response short, between 5-20 lines" -m claude-3-5-sonnet-latest'
 
 # update prompt to display repo info
