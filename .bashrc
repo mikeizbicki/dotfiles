@@ -79,6 +79,9 @@ On_IWhite='\e[0;107m'   # White
 
 #######################################
 
+export PYTHONPATH=.
+export EDITOR=vim
+
 # make bash history size unlimited and shared
 HISTSIZE=
 HISTFILESIZE=
