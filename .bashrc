@@ -94,21 +94,6 @@ export DOCKER_HOST=unix:///run/user/$UID/docker.sock
 export C_INCLUDE_PATH=~/.local/include:$C_INCLUDE_PATH
 export CPLUS_INCLUDE_PATH=~/.local/include:$CPLUS_INCLUDE_PATH
 
-# .env can store private environment variables like API keys;
-# load them if they exist
-if [ -e ~/.env ]; then
-    export $(cat ~/.env)
-fi
-
-# load a default python venv if it exists
-if [ -e ~/.venv/bin/activate ]; then
-    source ~/.venv/bin/activate
-fi
-
-# useful aliases
-alias groq='llm -s "keep your response short, between 5-20 lines" -m groq-llama-3.3-70b'
-alias claude='llm -s "keep your response short, between 5-20 lines" -m claude-3-5-sonnet-latest'
-
 # update prompt to display repo info
 . ~/.git-prompt.sh
 if [ "$(hostname)" = "userland" ]; then
@@ -133,3 +118,17 @@ unset SSH_ASKPASS
 # colorize ls
 eval "`dircolors -b ~/.dircolors`"
 alias ls='ls --color=auto'
+
+# .env can store private environment variables like API keys;
+# load them if they exist
+if [ -e ~/.env ]; then
+    export $(cat ~/.env)
+fi
+
+# useful aliases
+alias groq='llm -s "keep your response short, between 5-20 lines" -m groq-llama-3.3-70b'
+alias claude='llm -s "keep your response short, between 5-20 lines" -m claude-3-5-sonnet-latest'
+# load a default python venv if it exists
+if [ -e ~/.venv/bin/activate ]; then
+    source ~/.venv/bin/activate
+fi
