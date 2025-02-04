@@ -100,14 +100,23 @@ if [ -e ~/.env ]; then
     export $(cat ~/.env)
 fi
 
+# load pyenv if it exists
+if [ -e ~/.pyenv/bin/pyenv ]; then
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+fi
+
 # load a default python venv if it exists
 if [ -e ~/.venv/bin/activate ]; then
     source ~/.venv/bin/activate
 fi
 
-# useful aliases
-alias groq='llm -s "keep your response short, between 5-20 lines" -m groq-llama-3.3-70b'
-alias claude='llm -s "keep your response short, between 5-20 lines" -m claude-3-5-sonnet-latest'
+# useful llm aliases
+function llm_blue() {
+    command llm "$@" | awk '{print "\033[94m" $0 "\033[0m"}'
+}
+alias groq='llm_blue -s "keep your response short, between 5-20 lines" -m groq-llama-3.3-70b'
+alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m claude-3-5-sonnet-latest'
 
 # update prompt to display repo info
 . ~/.git-prompt.sh
