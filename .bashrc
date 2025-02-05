@@ -138,7 +138,9 @@ fi
 
 # useful llm aliases
 function llm_blue() {
-    command llm "$@" | awk '{print "\033[94m" $0 "\033[0m"}'
+    printf "\033[94m"
+    command llm "$@"
+    printf "\033[0m"
 }
 alias groq='llm_blue -s "keep your response short, between 5-20 lines" -m groq-llama-3.3-70b'
 alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m claude-3-5-sonnet-latest'
