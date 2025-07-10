@@ -94,6 +94,9 @@ export DOCKER_HOST=unix:///run/user/$UID/docker.sock
 export C_INCLUDE_PATH=~/.local/include:$C_INCLUDE_PATH
 export CPLUS_INCLUDE_PATH=~/.local/include:$CPLUS_INCLUDE_PATH
 
+# store git credentials for 1 year in ram after they are first entered
+git config --global credential.helper 'cache --timeout=31536000'
+
 # update prompt to display repo info
 . ~/.git-prompt.sh
 if [ "$(hostname)" = "userland" ]; then
@@ -142,6 +145,7 @@ function llm_blue() {
     command llm "$@"
     printf "\033[0m"
 }
-alias groq='llm_blue -s "keep your response short, between 5-20 lines" -m groq-llama-3.3-70b'
-alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m claude-3-5-sonnet-latest'
+alias groq='llm_blue -s "keep your response short, between 5-20 lines" -m groq/llama-3.3-70b-versatile'
+alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m anthropic/claude-3-7-sonnet-20250219'
+#alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m anthropic/claude-sonnet-4-0'
 
