@@ -139,13 +139,67 @@ if [ -e ~/.venv/bin/activate ]; then
     source ~/.venv/bin/activate
 fi
 
+# This function is useful for preprocesssing LLM prompts.
+# It outputs each line of stdin.
+# For each line that begins with a shell prompt '$',
+# it additionally outputs the command's stdin/stdout to stdout.
+# This results in the output of the commands also being included in the prompt.
+# For example:
+#
+#   $ expand_shell_markdown <<'EOF'
+#   Help me interpret the following command:
+#   $ uname -a
+#   What OS am I using?
+#   EOF
+#
+# will generate output like the following:
+#
+#   Help me interpret the following command:
+#   ```bash
+#   $ uname -a
+#   Linux laptop1 5.10.0-33-amd64 #1 SMP Debian 5.10.226-1 (2024-10-03) x86_64 GNU/Linux
+#   ```
+#   What OS am I using?
+#
+# Using the later output, an LLM can actually answer the posed question.
+expand_shell_markdown() {
+    local in_codeblock=false
+
+    while IFS= read -r line; do
+        if [[ $line == \$* ]]; then
+            if [[ $in_codeblock == false ]]; then
+                echo '```bash'
+                in_codeblock=true
+            fi
+            echo "$line"
+            eval "${line#\$}" 2>&1
+        else
+            if [[ $in_codeblock == true ]]; then
+                echo '```'
+                in_codeblock=false
+            fi
+            echo "$line"
+        fi
+    done
+
+    # Close any open code block at the end
+    if [[ $in_codeblock == true ]]; then
+        echo '```'
+    fi
+}
+
 # useful llm aliases
 function llm_blue() {
     printf "\033[94m"
-    command llm "$@"
+    expand_shell_markdown | command llm "$@"
     printf "\033[0m"
 }
 alias groq='llm_blue -s "keep your response short, between 5-20 lines" -m groq/llama-3.3-70b-versatile'
-alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m anthropic/claude-3-7-sonnet-20250219'
-#alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m anthropic/claude-sonnet-4-0'
+#alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m anthropic/claude-3-7-sonnet-20250219'
+alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m anthropic/claude-sonnet-4-0'
 
+####################
+
+function koine() {
+    claude "Take the following Koine Greek word and: define it; break it into root parts; list other common words that use the same roots (focus on the root and not prefix/suffixes, and only provide the list if the words exist and are common; do not provide any transliterations into english; list any modern english words derived from the specified word. If any of the above lists do not have meaningful entries, leave the entire list out (do not say that there are no entries). $1"
+}

@@ -26,7 +26,7 @@ nnoremap Q <nop>
 
 " restore old state of file on reload
 au BufWinLeave * mkview
-au BufWinEnter * silent loadview
+"au BufWinEnter * silent loadview
 
 " syntax highlighting
 set term=xterm-256color
