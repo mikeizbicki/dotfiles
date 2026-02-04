@@ -189,17 +189,138 @@ expand_shell_markdown() {
 }
 
 # useful llm aliases
-function llm_blue() {
+function llm_blue() {(
+    # this function wraps the output of llm in blue text
+    # and it copies the output to the clipboard
     printf "\033[94m"
-    expand_shell_markdown | command llm "$@"
-    printf "\033[0m"
+    local tempfile=$(mktemp)
+    trap "rm -f '$tempfile'; printf '\033[0m'" EXIT
+    command llm "$@" | tee "$tempfile"
+    xsel --clipboard -i < "$tempfile"
+    printf '\033[0m'
+) # the function is enclosed in a subshell to trigger the TRAP for cleanup
 }
 alias groq='llm_blue -s "keep your response short, between 5-20 lines" -m groq/llama-3.3-70b-versatile'
 #alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m anthropic/claude-3-7-sonnet-20250219'
-alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m anthropic/claude-sonnet-4-0'
 
-####################
+function claude() {(
+    #model=anthropic/claude-sonnet-4-0
+    #cost_input=3
+    #cost_output=15
 
-function koine() {
-    claude "Take the following Koine Greek word and: define it; break it into root parts; list other common words that use the same roots (focus on the root and not prefix/suffixes, and only provide the list if the words exist and are common; do not provide any transliterations into english; list any modern english words derived from the specified word. If any of the above lists do not have meaningful entries, leave the entire list out (do not say that there are no entries). $1"
+    model=anthropic/claude-opus-4-5-20251101
+    cost_input=5
+    cost_output=25
+
+    system_prompt="Keep your response short, between 1-20 lines. Focus on a high signal to noise ratio. If the question is about a computer, respond for the following system: $(uname -a)."
+
+    # Capture stderr while preserving stdout
+    local stderr_file=$(mktemp)
+    trap "rm -f '$stderr_file'" EXIT
+    llm_blue -s "$system_prompt" -m "$model" "$@" -u 2>"$stderr_file"
+    stderr_content=$(cat "$stderr_file")
+    local exit_code=$?
+    latest_cid=$(llm logs list -n 1 --json | jq -r '.[] | .conversation_id' 2>/dev/null)
+    # NOTE:
+    # There is a minor race condition here.
+    # The llm logs command above extracts the cid of the most recent conversation, which is almost certainly the conversation from the llm_blue call above.
+    # But it is possible that a concurrently running llm process terminates after the llm_blue and before llm logs.
+    # This shouldn't be a major concern in practice because this function is designed to be run interactively by a user and not inside a script.
+
+    #echo "$stderr_content" | xclip -selection clipboard
+
+    # Try to extract token usage from stderr
+    if [[ $stderr_content =~ Token\ usage:\ ([0-9,]+)\ input,\ ([0-9,]+)\ output ]]; then
+        input_tokens="${BASH_REMATCH[1]//,/}"
+        output_tokens="${BASH_REMATCH[2]//,/}"
+        cost_input=$(echo "scale=10; $cost_input * $input_tokens / 1000000" | bc -l)
+        cost_output=$(echo "scale=10; $cost_output * $output_tokens / 1000000" | bc -l)
+        cost_total=$(echo "scale=10; $cost_input + $cost_output" | bc -l)
+        printf "cost: $%.4f (input: $%0.4f, output: $%0.4f) --cid=$latest_cid\n" "$cost_total" "$cost_input" "$cost_output" >&2
+    else
+        # If pattern doesn't match, display the stderr content
+        if [[ -n $stderr_content ]]; then
+            echo "$stderr_content" >&2
+        fi
+        input_tokens=""
+        output_tokens=""
+    fi
+
+    return $exit_code
+) # the function is enclosed in a subshell to trigger the TRAP for cleanup
 }
+
+
+function wtf() {
+    # first we use kitty to get the content of our terminal session;
+    screen_text=$(kitty @ get-text --extent=screen --self | head -n -1)
+    screen_text=$(echo "$screen_text" | head -n -1)
+    # NOTE: 
+    # The kitty @ get-text command outputs the current contents of the screen to stdout. This content will contain the wtf command that has been typed into the terminal, which we remove with the 'head -n -1' command. This helps the LLM not get confused.
+
+    # Many programs print files and line numbers in their error messages.
+    # The following code scans the screen_text variable for any file names + line number combos,
+    # and extracts portions of those files to add to the context.
+    files_lines=$(echo "$screen_text" | grep "File \"" | sed 's/.*File "\([^"]*\)", line \([0-9]*\).*/\1:\2/')
+    files_context=$(while IFS=: read -r filepath linenum; do
+        #echo $filepath $linenum
+        # Get relative path from current directory
+        relpath=$(realpath --relative-to="$(pwd)" "$filepath" 2>/dev/null)
+
+        # Check if file is within current directory (doesn't start with ../)
+        if [[ "$relpath" != ../* ]] && [[ -f "$filepath" ]]; then
+            echo "=== $filepath (around line $linenum) ==="
+            # Show 10 lines before and after the error line, with line numbers
+            startline=$((linenum-10 > 1 ? linenum-10 : 1))
+            cat -n "$filepath" | sed -n "$startline,$((linenum+10))p"
+            echo
+        fi
+    done <<< "$files_lines")
+
+    prompt=$(cat <<EOF
+The following is a copy/paste of my current terminal session.
+There is an error message (or something else "weird"), and your job is to explain it.
+Do not restate the error, only explain the cause and how to fix it.
+
+\`\`\`
+$screen_text
+\`\`\`
+
+Here is some potentially helpful system information.
+All of the commands below were run after the terminal session above.
+
+\`\`\`
+$ uname -a
+$(uname -a)
+$ id
+$(id)
+$ pwd
+$(pwd)
+$ ls | head -n 50
+$(ls | head -n 50)
+$ ps | head -n 20
+$(ps | head -n 20)
+$ env | grep SSH
+$(env | grep SSH)
+\`\`\`
+
+NOTE:
+The head commands above may truncate the output of the informative commands. If that happens, and you need more output to understand the problem, say so.
+
+$files_context
+
+NOTE:
+You must ensure the correctness of your response.
+It is better to say that you do not understand the cause of an error (or that you need more information) than it is to state an incorrect cause of the error.
+NEVER STATE FALSE INFORMATION.
+EOF
+)
+    system='You are not having a conversation. Prioritize clarity and a high signal to noise ratio. Use technical terms as appropriate that a senior programmer would understand. Use markdown code blocks to format any code. The response should be as short as possible. Simple responses (e.g. describing a syntax error) can be 1 sentence. More complicated explanations can be 5-20 sentences.'
+    model=groq/llama-3.3-70b-versatile
+    #model=anthropic/claude-sonnet-4-0
+    llm_blue -s "$system" --no-log -m "$model" "$prompt"
+    #echo "$screen_text"
+}
+
+#function python3() { python3 "$@" || wtf; };
+#alias python=python3
