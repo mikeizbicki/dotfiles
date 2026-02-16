@@ -124,8 +124,11 @@ alias ls='ls --color=auto'
 
 # .env can store private environment variables like API keys;
 # load them if they exist
-if [ -e ~/.env ]; then
-    export $(cat ~/.env)
+if [ -s ~/.env ]; then
+    # set -a causes all variables to be environment variables
+    set -a
+    source ~/.env
+    set +a
 fi
 
 # load pyenv if it exists
