@@ -324,3 +324,9 @@ EOF
 
 #function python3() { python3 "$@" || wtf; };
 #alias python=python3
+
+####################
+
+function koine() {
+    claude -s "You are generating an anki flashcard for the specified koine greek word. The output should have the following sections: etymology, related words (Greek), and related words (English). The etymology should be useful for language learners (focus on greek derivations, not PIE). The related words (English) section should only focus on eytmological relations, the related word (Greek) should focus on etymologically related words (but it is also okay to include up to 2 words that are easy to confuse because they have similar meaning or similar sounds). Each section should have the title in <b> tag. The related words should be in a <ol>, with each word a <li> (inside the li tag, state the related word followed by - followed by explanation. Wrap each section in a div tag. If any of the above lists do not have meaningful entries, leave the entire list out (do not say that there are no entries)." "$1"
+}
