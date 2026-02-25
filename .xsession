@@ -9,6 +9,7 @@ xsetroot -solid gray10 &
 # applets
 nm-applet --sm-disable &
 mate-power-manager &
+pipewire & # required for pnmixer?
 pnmixer &
 
 # keyboard layouts
