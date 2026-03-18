@@ -17,9 +17,11 @@ set wildmenu
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set smartindent
-nmap <S-Tab> <<
-imap <S-Tab> <Esc><<i
+"set smartindent
+
+" comment settings
+set formatoptions-=t
+set formatoptions+=cro
 
 " remove annoying ex-mode feature
 nnoremap Q <nop>
