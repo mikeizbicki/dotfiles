@@ -94,6 +94,9 @@ export DOCKER_HOST=unix:///run/user/$UID/docker.sock
 export C_INCLUDE_PATH=~/.local/include:$C_INCLUDE_PATH
 export CPLUS_INCLUDE_PATH=~/.local/include:$CPLUS_INCLUDE_PATH
 
+# store git credentials for 1 year in ram after they are first entered
+git config --global credential.helper 'cache --timeout=31536000'
+
 # update prompt to display repo info
 . ~/.git-prompt.sh
 if [ "$(hostname)" = "userland" ]; then
@@ -121,8 +124,11 @@ alias ls='ls --color=auto'
 
 # .env can store private environment variables like API keys;
 # load them if they exist
-if [ -e ~/.env ]; then
-    export $(cat ~/.env)
+if [ -s ~/.env ]; then
+    # set -a causes all variables to be environment variables
+    set -a
+    source ~/.env
+    set +a
 fi
 
 # load pyenv if it exists
@@ -136,12 +142,25 @@ if [ -e ~/.venv/bin/activate ]; then
     source ~/.venv/bin/activate
 fi
 
-# useful llm aliases
-function llm_blue() {
-    printf "\033[94m"
-    command llm "$@"
-    printf "\033[0m"
-}
-alias groq='llm_blue -s "keep your response short, between 5-20 lines" -m groq-llama-3.3-70b'
-alias claude='llm_blue -s "keep your response short, between 5-20 lines" -m claude-3-5-sonnet-latest'
+# load the ai_scripts
+source .ai_scripts/geni.sh
 
+####################
+# useful aliases
+####################
+
+function koine() {
+    opus -s "You are generating an anki flashcard for the specified koine greek word. The output should have the following sections: etymology, related words (Greek), and related words (English). The etymology should be useful for language learners (focus on greek derivations, not PIE). The related words (English) section should only focus on eytmological relations, the related word (Greek) should focus on etymologically related words (but it is also okay to include up to 2 words that are easy to confuse because they have similar meaning or similar sounds). Each section should have the title in <b> tag. The related words should be in a <ol>, with each word a <li> (inside the li tag, state the related word followed by - followed by explanation. Wrap each section in a div tag. If any of the above lists do not have meaningful entries, leave the entire list out (do not say that there are no entries)." "$1"
+}
+
+alias icat="kitty +kitten icat"
+alias scan="scanimage -d 'brother4:net1;dev0' --format=png -o scan.png"
+
+####################
+# debug utilities
+####################
+
+# show any un-committed changes to dotfiles;
+# this helps ensure that whatever settings changes get committed/uploaded
+# and not forgotten about
+git diff --cached --quiet && git diff --quiet || git diff HEAD --stat

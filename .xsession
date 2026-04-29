@@ -9,7 +9,8 @@ xsetroot -solid gray10 &
 # applets
 nm-applet --sm-disable &
 mate-power-manager &
-mate-volume-control-applet || mate-volume-control-status-icon &
+pipewire & # required for pnmixer?
+pnmixer &
 
 # keyboard layouts
 setxkbmap -layout us,es -variant , -option 'grp:alt_shift_toggle' 

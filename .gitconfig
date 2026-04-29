@@ -2,8 +2,13 @@
 	name = Mike Izbicki
 	email = mike@izbicki.me
 [credential]
-	helper = cache --timeout=9000
+	helper = cache --timeout=31536000
 [push]
 	default = simple
 [core]
 	editor = vim
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
