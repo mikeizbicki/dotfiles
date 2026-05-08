@@ -143,7 +143,7 @@ if [ -e ~/.venv/bin/activate ]; then
 fi
 
 # load the ai_scripts
-source .ai_scripts/geni.sh
+source ~/.ai_scripts/shell/geni.sh
 
 ####################
 # useful aliases
