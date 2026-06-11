@@ -88,6 +88,13 @@ HISTFILESIZE=
 PROMPT_COMMAND='history -a'
 shopt -s histappend
 
+# use fzf for ctrl-r;
+# the settings below are designed to ensure that multiline commands (long heredocs)
+# are easily searchable
+shopt -s cmdhist lithist
+export HISTTIMEFORMAT='%F %T '
+source /usr/share/doc/fzf/examples/key-bindings.bash
+
 # set public environment variables
 export PATH=~/.local/bin:~/.cabal/bin:~/bin:$PATH
 export DOCKER_HOST=unix:///run/user/$UID/docker.sock

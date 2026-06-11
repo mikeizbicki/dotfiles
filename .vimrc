@@ -59,3 +59,18 @@ autocmd BufNewFile,BufRead *.md set filetype=markdown
 " JSON config
 autocmd BufNewFile,BufRead *.json-schema set filetype=json
 autocmd FileType json setlocal tabstop=2 shiftwidth=2 expandtab
+
+" the :R command is like :! but it prints the command and its output into the
+" current buffer rather than to the screen;
+" the name comes from the fact that `:R ls` behaves similarly to `:r !ls`
+command! -nargs=+ -complete=shellcmd R call s:R(<q-args>)
+function! s:R(qargs) abort
+  let ind = matchstr(getline('.'), '^\s*') . '    '
+  let lines = map(['$ ' . a:qargs] + systemlist(a:qargs) + [''],
+        \ {_, v -> v == '' ? '' : ind . v})
+  let l = line('.')
+  call append(l, lines)
+  call cursor(l + len(lines), 1)
+endfunction
+
+
