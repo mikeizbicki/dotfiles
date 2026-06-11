@@ -12,6 +12,10 @@ mate-power-manager &
 pipewire & # required for pnmixer?
 pnmixer &
 
+# start background kitty daemon
+# (for faster startup times)
+kitty --single-instance --instance-group=main --detach
+
 # keyboard layouts
 setxkbmap -layout us,es -variant , -option 'grp:alt_shift_toggle' 
 xbdd

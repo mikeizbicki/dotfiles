@@ -15,9 +15,9 @@ main = do
     xmproc <- spawnPipe "/usr/bin/xmobar /home/user/.xmobarrc"
     --spawnPipe "trayer --edge top --align right --width 150 --widthtype pixel --height 18 --tint 0 --alpha 255 --transparent true"
     xmonad $ docks $ def
-        { terminal = "kitty" --"gnome-terminal"
+        { terminal = "kitty -1" --"gnome-terminal"
         , startupHook = composeAll
-            [ spawnOn "1" "kitty" --"gnome-terminal"
+            [ spawnOn "1" "kitty -1" --"gnome-terminal"
             ]
         , manageHook = composeAll
             [ manageDocks 
