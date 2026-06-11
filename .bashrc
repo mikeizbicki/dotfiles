@@ -82,6 +82,13 @@ On_IWhite='\e[0;107m'   # White
 export PYTHONPATH=.
 export EDITOR=vim
 
+# fix lambda server bug where numpy libraries crash on load
+export OMP_NUM_THREADS=4
+
+# local docker setup
+export PATH=~/.local/bin:~/bin:$PATH
+export DOCKER_HOST=unix:///run/user/$UID/docker.sock
+
 # make bash history size unlimited and shared
 HISTSIZE=
 HISTFILESIZE=
