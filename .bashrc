@@ -173,3 +173,26 @@ alias scan="scanimage -d 'brother4:net1;dev0' --format=png -o scan.png"
 # this helps ensure that whatever settings changes get committed/uploaded
 # and not forgotten about
 git diff --cached --quiet && git diff --quiet || git diff HEAD --stat
+
+# the purpose of the functions below is to help prevent data loss;
+# they can be run to ensure that all info in a repo is committed and pushed to github
+is_repo_save() {
+  local d
+  for d in "$@"; do
+    [[ -d $d/.git ]] || continue
+    ( cd "$d" || exit
+      local problems=()
+      [[ -n $(git status --porcelain) ]] && problems+=("DIRTY")
+      if git rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
+        a=$(git rev-list --count '@{u}..HEAD')
+        [[ ${a:-0} -gt 0 ]] && problems+=("UNPUSHED ($a)")
+      else
+        problems+=("NO-UPSTREAM")
+      fi
+      [[ ${#problems[@]} -gt 0 ]] && echo "$d: ${problems[*]}"
+    )
+  done
+}
+check_backup() {
+    is_repo_saved ~/proj/*
+}
