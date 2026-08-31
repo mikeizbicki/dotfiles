@@ -85,10 +85,6 @@ export EDITOR=vim
 # fix lambda server bug where numpy libraries crash on load
 export OMP_NUM_THREADS=4
 
-# local docker setup
-export PATH=~/.local/bin:~/bin:$PATH
-export DOCKER_HOST=unix:///run/user/$UID/docker.sock
-
 # make bash history size unlimited and shared
 HISTSIZE=
 HISTFILESIZE=
@@ -103,8 +99,6 @@ export HISTTIMEFORMAT='%F %T '
 source /usr/share/doc/fzf/examples/key-bindings.bash
 
 # set public environment variables
-export PATH=~/.local/bin:~/.cabal/bin:~/bin:$PATH
-export DOCKER_HOST=unix:///run/user/$UID/docker.sock
 export C_INCLUDE_PATH=~/.local/include:$C_INCLUDE_PATH
 export CPLUS_INCLUDE_PATH=~/.local/include:$CPLUS_INCLUDE_PATH
 
@@ -113,11 +107,6 @@ git config --global credential.helper 'cache --timeout=31536000'
 
 # update prompt to display repo info
 . ~/.git-prompt.sh
-if [ "$(hostname)" = "userland" ]; then
-    hoststr=""
-else
-    hoststr="\[$Green\]\h\[$Red\]:"
-fi
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM='auto'
@@ -129,70 +118,3 @@ unset SSH_ASKPASS
 # colorize ls
 eval "`dircolors -b ~/.dircolors`"
 alias ls='ls --color=auto'
-
-# .env can store private environment variables like API keys;
-# load them if they exist
-if [ -s ~/.env ]; then
-    # set -a causes all variables to be environment variables
-    set -a
-    source ~/.env
-    set +a
-fi
-
-# load pyenv if it exists
-if [ -e ~/.pyenv/bin/pyenv ]; then
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
-fi
-
-# load a default python venv if it exists
-if [ -e ~/.venv/bin/activate ]; then
-    source ~/.venv/bin/activate
-fi
-
-# load the ai_scripts
-source ~/.ai_scripts/shell/geni.sh
-
-####################
-# useful aliases
-####################
-
-function koine() {
-    opus -s "You are generating an anki flashcard for the specified koine greek word. The output should have the following sections: etymology, related words (Greek), and related words (English). The etymology should be useful for language learners (focus on greek derivations, not PIE). The related words (English) section should only focus on eytmological relations, the related word (Greek) should focus on etymologically related words (but it is also okay to include up to 2 words that are easy to confuse because they have similar meaning or similar sounds). Each section should have the title in <b> tag. The related words should be in a <ol>, with each word a <li> (inside the li tag, state the related word followed by - followed by explanation. Wrap each section in a div tag. If any of the above lists do not have meaningful entries, leave the entire list out (do not say that there are no entries)." "$1"
-}
-
-alias kitty='kitty -1 --detach --directory "$PWD"'
-alias icat="\kitty +kitten icat"
-alias scan="scanimage -d 'brother4:net1;dev0' --format=png -o scan.png"
-
-####################
-# debug utilities
-####################
-
-# show any un-committed changes to dotfiles;
-# this helps ensure that whatever settings changes get committed/uploaded
-# and not forgotten about
-git diff --cached --quiet && git diff --quiet || git diff HEAD --stat
-
-# the purpose of the functions below is to help prevent data loss;
-# they can be run to ensure that all info in a repo is committed and pushed to github
-is_repo_save() {
-  local d
-  for d in "$@"; do
-    [[ -d $d/.git ]] || continue
-    ( cd "$d" || exit
-      local problems=()
-      [[ -n $(git status --porcelain) ]] && problems+=("DIRTY")
-      if git rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
-        a=$(git rev-list --count '@{u}..HEAD')
-        [[ ${a:-0} -gt 0 ]] && problems+=("UNPUSHED ($a)")
-      else
-        problems+=("NO-UPSTREAM")
-      fi
-      [[ ${#problems[@]} -gt 0 ]] && echo "$d: ${problems[*]}"
-    )
-  done
-}
-check_backup() {
-    is_repo_saved ~/proj/*
-}
