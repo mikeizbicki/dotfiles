@@ -1,0 +1,4 @@
+- model_id: groq-qwen
+  model_name: qwen/qwen3.8-27b
+  api_key_name: groq
+  api_base: https://api.groq.com/openai/v1
