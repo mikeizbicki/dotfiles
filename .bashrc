@@ -107,6 +107,7 @@ git config --global credential.helper 'cache --timeout=31536000'
 
 # update prompt to display repo info
 . ~/.git-prompt.sh
+hoststr="\[$Green\]\u\[$Red\]:"
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM='auto'
