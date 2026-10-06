@@ -102,6 +102,9 @@ shopt -s cmdhist lithist
 export HISTTIMEFORMAT='%F %T '
 source /usr/share/doc/fzf/examples/key-bindings.bash
 
+# get more intuitive glob behavior
+shopt -s globstar nullglob
+
 # set public environment variables
 export PATH=~/.local/bin:~/.cabal/bin:~/bin:$PATH
 export DOCKER_HOST=unix:///run/user/$UID/docker.sock
@@ -158,7 +161,7 @@ source ~/.ai_scripts/shell/geni.sh
 ####################
 
 function koine() {
-    opus -s "You are generating an anki flashcard for the specified koine greek word. The output should have the following sections: etymology, related words (Greek), and related words (English). The etymology should be useful for language learners (focus on greek derivations, not PIE). The related words (English) section should only focus on eytmological relations, the related word (Greek) should focus on etymologically related words (but it is also okay to include up to 2 words that are easy to confuse because they have similar meaning or similar sounds). Each section should have the title in <b> tag. The related words should be in a <ol>, with each word a <li> (inside the li tag, state the related word followed by - followed by explanation. Wrap each section in a div tag. If any of the above lists do not have meaningful entries, leave the entire list out (do not say that there are no entries)." "$1"
+    dic -m anthropic+opus -s "You are generating an anki flashcard for the specified koine greek word. The output should have the following sections: etymology, related words (Greek), and related words (English). The etymology should be useful for language learners (focus on greek derivations, not PIE). The related words (English) section should only focus on eytmological relations, the related word (Greek) should focus on etymologically related words (but it is also okay to include up to 2 words that are easy to confuse because they have similar meaning or similar sounds). Each section should have the title in <b> tag. The related words should be in a <ol>, with each word a <li> (inside the li tag, state the related word followed by - followed by explanation. Wrap each section in a div tag. If any of the above lists do not have meaningful entries, leave the entire list out (do not say that there are no entries)." "$1"
 }
 
 alias kitty='kitty -1 --detach --directory "$PWD"'
